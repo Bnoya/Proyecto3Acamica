@@ -137,5 +137,35 @@ class Cart {
         }
     }
 
-    
+    async queryOrdersByUserId(userId){
+        const queryStr = `
+        SELECT Orders.id as order_number, Order_status.order_status_name, Orders.order_date,Orders.cart_id, Orders.order_desc,  Payment_methods.payment_method_name, Orders.total, Users.first_name, Users.last_name, Users.shipping_address
+        FROM Orders
+        INNER JOIN Order_status ON Order_status.id = Orders.order_status_id
+        INNER JOIN Payment_methods ON Payment_methods.id = Orders.payment_method_id
+        INNER JOIN Users ON Users.id = Orders.user_id
+        WHERE Orders.user_id = :userId
+        ORDER BY Orders.order_status_id ASC;`
+
+        const query = await this.sequelize.query(queryStr, {
+            replacements: {userId: userId},
+            type: this.sequelize.QueryTypes.SELECT
+        })
+        return query
+    }
+
+    async deleteOrderBtId(orderId){
+        let query;
+        try{
+            query = await this.sequelize.query("DELETE FROM Orders WHERE id = :orderId", {
+                replacements: {orderId: orderId}, type : this.sequelize.QueryTypes.DELETE
+            })
+            return {error: false, message: `Order with id: ${orderId} was deleted.`}
+        } catch (err){
+            return {error: true, message: "Couldn't delete your order"}
+            
+        }
+    }
 }
+
+module.exports = Cart;

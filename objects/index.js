@@ -15,3 +15,13 @@ const db = [];
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+const Product = require('./product.js');
+db.products = new Product(sequelize);
+
+const User = require('./user.js');
+db.users = new User(sequelize);
+
+const Cart = require('./cart.js');
+db.carts = new Cart(sequelize);
+
+module.exports = db;

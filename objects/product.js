@@ -8,15 +8,13 @@ class Product {
         return productos;
     }
 
-    async queryById(prodId) {
+    async queryById(prodId){
         try {
-            const product = await this.sequelize.query('SELECT * FROM Products WHERE id = :id', {
-                replacement: {id: prodId},
-                type: this.sequelize.QueryTypes.SELECT
-            });
-            return product
-
-        }catch (error) {
+            const product = this.sequelize.query("SELECT * FROM Products WHERE id= :id", {
+                replacements: {id: prodId},
+                type: this.sequelize.QueryTypes.SELECT});
+            return product;
+        } catch (err) {
             return err;
         }
     }

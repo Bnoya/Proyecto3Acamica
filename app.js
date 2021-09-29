@@ -99,17 +99,17 @@ app.post('/create-user', async (req, res) => {
 
 app.post('/create-admin-user', async (req, res) => {
     if (!(req.body.email && req.body.password && req.body.email)) {
-        return res.status(400).send({error: "Data not Formated Correctly"})
+        return res.status(400).send({ error: "Data not formatted properly" });
     }
     if (!(req.user.userRoleId == 1)) {
         res.status(401).send({message: 'unauthorized'})
     }
-    req.body.user_role_id == 1;
+    req.body.user_role_id = 1;
     const new_user = await db.users.newUser(req.body);
-    if (new_user == false) {
-        res.status(500).send({message: "Couldn't create User"});
-    }else {
-        res.status(201).send({message: "User Created" })
+    if (new_user == false){
+        res.status(500).send({message: 'couldnt create user'})
+    } else {
+        res.status(201).send({message: 'User Created'})
     }
 })
 

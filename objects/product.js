@@ -27,8 +27,8 @@ class Product {
                 replacement: {name: product.name, price: product.price, imgUrl: product.imgUrl},
                 type: this.sequelize.QueryTypes.INSERT});
             return {message: 'Product Created'}
-        } catch (error) {
-            return {message: error.errors[0].message}
+        } catch (err) {
+            return {message: err.errors[0].message}
         }
 
     }

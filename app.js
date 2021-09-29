@@ -139,17 +139,17 @@ app.delete('/products/:prodId', async (req, res) => {
 });
 
 app.post('/products', async (req, res) => {
-    if (!(req.body.name && req.body.price)) {
-        res.status(400).send({error: 'Data not Formated Correctly'})
-    }
+    if(!(req.body.name && req.body.price)){
+        res.status(400).send({ error: "Data not formatted properly" });
+    } 
     if (req.user.userRoleId != 1) {
-        res.status(401).send({message: "unauthorized"});
+        res.status(401).send({message: 'unauthorized'})
     } else {
-        if (!req.body.imgUrl) {
-            req.body.imgUrl = null;
+        if(!req.body.imgUrl){
+            req.body.imgUrl = null
         }
         const query = await db.products.newProduct({name: req.body.name, price: req.body.price, imgUrl: req.body.imgUrl})
-        res.send(query);
+        res.send(query)
     }
 })
 

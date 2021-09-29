@@ -47,11 +47,13 @@ class Product {
         }
     }
     async updateProductPrice(prodId, price){
-        try{
-            const query = await this.sequelize.query('UPDATE products SET price = :price WHERE id = :id',
-            {replacement: {id: prodId, price: price},
-            type: this.sequelize.QueryTypes.UPDATE})
-        return {error: false, message: "Product's price updates correctly"}
+        try {
+            const query = await this.sequelize.query("UPDATE products SET price = :price WHERE id = :id", 
+            {
+                replacements: { id: prodId, price: price},
+                type: this.sequelize.QueryTypes.UPDATE
+            })
+            return {error: false, message: "Product's price updated correctly"}
         } catch (err) {
             return {error: true, message: "Couldn't update product's price"}
         }
@@ -80,7 +82,6 @@ class Product {
             return {error: true, message: "Couldn't update product's img"}
         }
     }
-    
-};
+    };
 
 module.exports = Product;

@@ -21,16 +21,16 @@ class Product {
 
     async newProduct(product){
         let query;
-        try{
-            query = await this.sequelize.query('INSERT INTO products (name, price, img_url, active) VALUES (:name, :price, :imgUrl, 1)',
-            {
-                replacement: {name: product.name, price: product.price, imgUrl: product.imgUrl},
-                type: this.sequelize.QueryTypes.INSERT});
-            return {message: 'Product Created'}
-        } catch (err) {
-            return {message: err.errors[0].message}
-        }
-
+        try {
+        query = await this.sequelize.query("INSERT INTO products (name, price, img_url, active) VALUES (:name, :price, :imgUrl, 1)", 
+        {
+            replacements: { name: product.name, price: product.price, imgUrl: product.imgUrl},
+            type: this.sequelize.QueryTypes.INSERT
+        })
+        return {message: 'Product Created'}
+    } catch (err) {
+        return {message: err.errors[0].message}
+    }
     }
 
     async deleteProductById(productId) {

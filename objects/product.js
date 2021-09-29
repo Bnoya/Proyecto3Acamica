@@ -25,8 +25,7 @@ class Product {
             query = await this.sequelize.query('INSERT INTO products (name, price, img_url, active) VALUES (:name, :price, :imgUrl, 1)',
             {
                 replacement: {name: product.name, price: product.price, imgUrl: product.imgUrl},
-                type: this.sequelize.QueryTypes.INSERT
-            });
+                type: this.sequelize.QueryTypes.INSERT});
             return {message: 'Product Created'}
         } catch (error) {
             return {message: error.errors[0].message}

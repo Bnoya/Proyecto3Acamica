@@ -152,7 +152,7 @@ class Cart {
         return query
     }
 
-    async deleteOrderBtId(orderId){
+    async deleteOrderById(orderId){
         let query;
         try{
             query = await this.sequelize.query("DELETE FROM Orders WHERE id = :orderId", {

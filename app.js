@@ -227,7 +227,7 @@ app.get('/orders', async (req, res) => {
     if (req.user.userRoleId != 1) {
         res.status(401).send({message: 'unauthorized'});
     } else {
-        const orders = await db.carts.querryAllOrders();
+        const orders = await db.carts.queryAllOrders();
         res.send(orders);
     }
 })

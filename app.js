@@ -85,15 +85,15 @@ app.get('/users/:userId', async (req, res) => {
 
 app.post('/create-user', async (req, res) => {
     if (!(req.body.username && req.body.password && req.body.email && req.body.firstName && req.body.lastName && req.body.phone && req.body.shippingAddress)) {
-        return res.status(400).send({ error: "Data not Formated Correctly"});
+        return res.status(400).send({ error: "Data not formatted properly" });
     }
     req.body.user_role_id = 2;
 
-    const new_user = await db.user.newUser(req.body);
-    if (new_user == false) {
-        res.status(500).send( {message: "couldn't create user"})
+    const new_user = await db.users.newUser(req.body);
+    if (new_user == false){
+        res.status(500).send({message: 'couldnt create user'})
     } else {
-        res.status(201).send({message: "User Created"})
+        res.status(201).send({message: 'User Created'})
     }
 })
 

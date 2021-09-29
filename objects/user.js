@@ -43,20 +43,23 @@ class User {
     }
 
     async newUser(userData) {
-        const salt = await bcrypt.genSalt(12);
-
+        // generate salt to hash password
+        const salt = await bcrypt.genSalt(10);
+        // now we set user password to hashed password
+        console.log(userData.password)
+        
         const hashedPassword = await bcrypt.hash(userData.password, salt);
-
-        const query = `INSERT INTO Users (username, email, password, user_role_id, first_name, last_name, phone, shipping_address)
+        const query = `
+        INSERT INTO Users (username, email, password, user_role_id, first_name, last_name, phone, shipping_address)
         VALUES (:username, :email, :password, :user_role_id, :firstName, :lastName, :phone, :shippingAddress);`
-        try {
+        try {            
             const queryed = await this.sequelize.query(
                 query,
                 {
-                    replacements: {username: userData.username, email: userData.email, password: hashedPassword, user_role_id:  userData.user_role_id, firstName: userData.firstName, lastName: userData.lastName, phone: userData.phone, shippingAddress: userData.shippingAddress },
+                    replacements: { username: userData.username, email: userData.email, password: hashedPassword, user_role_id:  userData.user_role_id, firstName: userData.firstName, lastName: userData.lastName, phone: userData.phone, shippingAddress: userData.shippingAddress },
                     type: this.sequelize.QueryTypes.INSERT
                 })
-                return queryed;
+            return queryed;
         } catch (error) {
             return false
         }

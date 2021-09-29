@@ -125,18 +125,17 @@ app.get('/products/:prodId', async (req, res) => {
     res.send(products)
 })
 
-app.delete('/products/:prodId', async (req, res) => {
+app.delete('/products/:prodId', async (req, res)=> {
     if (req.user.userRoleId != 1) {
-        res.status(401).send({message: 'unauthorized'});
+        res.status(401).send({message: 'unauthorized'})
     } else {
-        const query = await db.products.deleteProductById(req.params.prodId);
-        if (query.error) {
-            res.status(500).send({message : query.message})
-        } else {
-            res.send({message: query.message})
-        }
+    const query = await db.products.deleteProductById(req.params.prodId);
+    if(query.error){
+        res.status(500).send({message: query.message})
+    } else {
+        res.send({message: query.message})
     }
-});
+}})
 
 app.post('/products', async (req, res) => {
     if(!(req.body.name && req.body.price)){

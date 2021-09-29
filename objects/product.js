@@ -33,17 +33,17 @@ class Product {
     }
     }
 
-    async deleteProductById(productId) {
+    async deleteProductById(productId){
         let query;
         try {
-            query = await this.sequelize.query('DELETE FROM products WHERE id = :productId', {
-                replacement: {productId: productId},
+            query = await this.sequelize.query("DELETE FROM products WHERE id = :productId", {
+                replacements: {productId: productId},
                 type: this.sequelize.QueryTypes.DELETE
             })
             return {error: false, message: `product with id ${productId} was deleted.`}
         } catch (err) {
-            console.log(error);
-            return{error: true, message: "could't delete product."}
+            console.log(err)
+            return {error: true, message: "couldn't delete product."}
         }
     }
     async updateProductPrice(prodId, price){

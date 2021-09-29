@@ -2,7 +2,7 @@
 
 
 ## como ejecutar el servidor
-1. Ejecutar el comando `npm i`. Instalar paquetes necesarios acorder a package.JSON.
+1. Ejecutar el comando `npm i`. Instalar paquetes necesarios acorder a `package.JSON`.
 2. Adecuar el archivo `./models/dbconfig.js` con los parametros necesarios para conectarse a la db.
 3. Correr base de datos y crear la db `delilah`.
 4. ejecutar script de SQL que se encuentra en `./objects/delilah.sql`.

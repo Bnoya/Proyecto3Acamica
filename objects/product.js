@@ -8,7 +8,7 @@ class Product {
         return productos;
     }
 
-    async querryById(prodId) {
+    async queryById(prodId) {
         try {
             const product = await this.sequelize.query('SELECT * FROM Products WHERE id = :id', {
                 replacement: {id: prodId},

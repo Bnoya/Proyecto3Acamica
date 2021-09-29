@@ -121,9 +121,9 @@ app.get('/products', async (req, res) => {
 });
 
 app.get('/products/:prodId', async (req, res) => {
-    const products = await db.products.querryById(req.body.prodId);
-    res.send(products);
-});
+    const products = await db.products.queryById(req.params.prodId);
+    res.send(products)
+})
 
 app.delete('/products/:prodId', async (req, res) => {
     if (req.user.userRoleId != 1) {

@@ -11,7 +11,7 @@ db.sequelize.sync();
 app.use(express.json());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
-const SECRET_KEY = 'chicken';
+const SECRET_KEY = 'foo';
 
 //middleWare
 
@@ -39,10 +39,10 @@ app.use(authenticateUser);
 // User Routes:
 
 app.post('/user/login', async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
+    const username = req.body.username
+    const password = req.body.password
 
-    const user = await db.user.loginUser(username, password);
+    const user = await db.users.loginUser(username, password);
     if (user.loginSuccess) {
         const accessToken = jwt.sign({
             userId: user.id,
@@ -51,12 +51,12 @@ app.post('/user/login', async (req, res) => {
             userRoleId: user.user_role_id
         }, SECRET_KEY);
         res.send({
-            message: 'Login Successfull', 
+            message: 'Login Successfull',
             userId: user.id,
             token: accessToken
         });
-    }else {
-        res.send({message: 'Incorrect username or password'})
+    } else {
+        res.send({message: 'incorrect username or password'})
     }
 })
 

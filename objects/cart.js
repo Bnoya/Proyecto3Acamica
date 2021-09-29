@@ -117,10 +117,8 @@ class Cart {
         INNER JOIN Payment_methods ON Payment_methods.id = Orders.payment_method_id
         INNER JOIN Users ON Users.id = Orders.user_id
         ORDER BY Orders.order_status_id ASC;`
-
         const query = await this.sequelize.query(queryStr, {
-            type: this.sequelize.QueryTypes.SELECT
-        })
+            type: this.sequelize.QueryTypes.SELECT})
         return query
     }
 

@@ -153,40 +153,39 @@ app.post('/products', async (req, res) => {
 })
 
 app.put('/product', async (req, res) => {
-    if (!(req.body.id && (req.body.price || req.body.name || req.body.imgUrl))) {
-        res.status(400).send({ error: "Data not formatted properly"});
-    }
+    if(!(req.body.id && (req.body.price || req.body.name || req.body.imgUrl))){
+        res.status(400).send({ error: "Data not formatted properly" });
+    } 
     if (req.user.userRoleId != 1) {
-        res.status(401).send({message: "unauthorized"});
+        res.status(401).send({message: 'unauthorized'})
     } else {
         let response = {};
         if (req.body.price) {
-            const query = await db.products.updateProductPrice(req.body.id, req.body.price);
+            const query = await db.products.updateProductPrice(req.body.id, req.body.price)
             if (query.error) {
-                res.status(500).send({message: query.message});
+                res.status(500).send({message: query.message})
             } else {
-                response['Price Qperation'] = {message: query.message};
+                response['Price Operation'] = {message: query.message}
             }
         }
         if (req.body.name) {
-            const query = await db.products.updateProductName(req.body.id, req.body.name);
+            const query = await db.products.updateProductName(req.body.id, req.body.name)
             if (query.error) {
-                res.status(500).send({message:query.message});
+                res.status(500).send({message: query.message})
             } else {
-                response ['Name Operation'] = {message: query.message}
+                response['Name Operation'] = {message: query.message}
             }
         }
         if (req.body.imgUrl) {
-            const query = await db.products.updateProductImgUrl(req.body.id, req.body.imgUrl);
+            const query = await db.products.updateProductImgUrl(req.body.id, req.body.imgUrl)
             if (query.error) {
-                res.status(500).send({message:query.message});
+                res.status(500).send({message: query.message})
             } else {
-                response ['Img Operation'] = {message: query.message}
+                response['Img Operation'] = {message: query.message}
             }
         }
-        res.send(response);
+        res.send(response)
     }
-
 })
 
 app.post('/products/cart', async (req, res) => {

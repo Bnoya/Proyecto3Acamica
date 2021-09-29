@@ -1,0 +1,484 @@
+swagger: "2.0"
+info:
+  description: "Lorem ipsum"
+  version: "1.0.0"
+  title: "Delilah Resto"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "benjanoya@hotmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/v2"
+tags:
+- name: "admin"
+  description: "Everything about your order and products"
+- name: "store"
+  description: "Access to all orders"
+- name: "user"
+  description: "Operations about user"
+schemes:
+- "http"
+paths:
+  /create-user:
+    post:
+      tags:
+      - "user"
+      summary: "Create user"
+      description: "This can be done by anyone."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: body
+          name: user
+          description: The user to create.
+          schema:
+            type: object
+            properties:
+              userName:
+                type: "string"
+              firstName:
+                type: "string"
+              lastName:
+                type: "string"
+              email:
+                type: "string"
+              password:
+                type: "string"
+              phone:
+                type: "string"
+              shippingAdress:
+                type: "string"
+      responses:
+        "201":
+          description: "User created"
+        "400":
+          description: "Error description"
+        "500":
+          description: "Internal server error"
+  /user/login:
+    get:
+      tags:
+      - "user"
+      summary: "Logs user into the system"
+      description: ""
+      operationId: "loginUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "The user name for login"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "The password for login in clear text"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Login Successfull"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+              token:
+                type: "string"
+        "400":
+          description: "incorrect username or password"
+        "500":
+          description: "Internal server error"
+  /user:
+    get:
+      tags:
+      - "users"
+      summary: "Get all usernames."
+      description: "Get all username. Only Admin users can get other users information"
+      operationId: "querryAll"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        required: true
+        in: "path"
+        description: "Access user information. Only available for admin users"
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+                format: "int64"
+              username:
+                type: "string"
+              firstName:
+                type: "string"
+              lastName:
+                type: "string"
+              email:
+                type: "string"
+              phone:
+                type: "string"
+              shippingAdress:
+                type: "string"
+              userRoleId:
+                type: "integer"
+                format: "int32"
+        "400":
+          description: "Invalid username supplied"
+        "401":
+          description: "Not authorized"
+        "404":
+          description: "User not found"
+    /users/{userId}:
+    get:
+      tags:
+      - "user"
+      summary: "Get user by username."
+      description: "Get user by username. Only Admin users can get other users information"
+      operationId: "getUserByName"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        required: true
+        in: "path"
+        description: "Access user information. Only available for admin users"
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+                format: "int64"
+              username:
+                type: "string"
+              firstName:
+                type: "string"
+              lastName:
+                type: "string"
+              email:
+                type: "string"
+              phone:
+                type: "string"
+              shippingAdress:
+                type: "string"
+              userRoleId:
+                type: "integer"
+                format: "int32"
+        "400":
+          description: "Invalid username supplied"
+        "401":
+          description: "Not authorized"
+        "404":
+          description: "User not found"
+                 
+  /product:
+    get:
+      tags:
+      - "product"
+      summary: "Get all products"
+      description: "Returns all products listed"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+    post:
+      tags:
+        - "product"
+      summary: "Create new product. Only available for admin users"
+      produces:
+      - "application/json"
+      parameters:
+        - in: body
+          name: product
+          description: The product to create.
+          schema:
+            type: "object"
+            properties:
+              name: 
+                type: "string"
+              price: 
+                type: "integer"
+                format: "int32"
+              imgUrl:
+                type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+    put:
+      tags:
+        - "product"
+      summary: "update product info"
+      produces:
+      - "application/json"
+      parameters:
+        - in: body
+          name: product
+          description: The product to create.
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              price:
+                type: "integer"
+              name:
+                type: "string"
+              imgUrl:
+                type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+  /products/{productId}:
+    get:
+      tags:
+      - "product"
+      summary: "Get product by id"
+      description: "Returns product by id"
+      parameters:
+      - name: "productId"
+        in: "path"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        "404":
+          description: "product not found"
+  /products/cart:
+    post:
+      tags:
+      - "orders"
+      summary: "add product to user´s active cart"
+      description: "Returns product by id"
+      parameters:
+      - in: "body"
+        name: "product"
+        schema:
+          type: object
+          properties:
+            prodId:
+              type: "integer"
+            quantity:
+              type: "integer"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Product Added to cart"
+    delete:
+      tags:
+      - "orders"
+      summary: "remove product to user´s active cart"
+      description: "Returns product by id"
+      parameters:
+      - name: "productId"
+        in: "path"
+        required: true
+        type: "string"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Product"
+        "404":
+          description: "product not found"
+  /current-cart:
+    get:
+      tags:
+      - "orders"
+      summary: "Gets logged user's current cart"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              cartId: 
+                type: "integer"
+              cartTotalPrice:
+                type: "integer"
+              cartDetails:
+                type: "object"
+                properties:
+                  productId:
+                    type: "integer"
+                  name: 
+                    type: "string"
+                  imgUrl:
+                    type: "string"
+                  price:
+                    type: "integer"
+                  quantity:
+                    type: "integer"
+  /checkout-cart:
+    post:
+      tags:
+      - "orders"
+      summary: "Checkouts cart and creates order"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "paymentMethodId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+
+definitions:
+  Product:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      name: 
+        type: "string"
+      price: 
+        type: "integer"
+        format: "int32"
+      imgUrl:
+        type: "string"
+      active: 
+        type: "boolean"
+  Order:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      cartId:
+        type: "integer"
+        format: "int32"
+      orderDate:
+        type: "string"
+        format: "YYYY:MM:DD HH:MM:SS"
+      totalPrice:
+        type: "integer"
+        format: "int32"
+      paymentMethodId:
+        type: "integer"
+        format: "int32"
+      orderStatusId:
+        type: "integer"
+        format: "int32"
+      complete:
+        type: "boolean"
+        default: false
+    xml:
+      name: "Order"
+  Cart:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      createdAt:
+        type: "string"
+        format: "YYYY:MM:DD HH:MM:SS"
+      isActive: 
+        type: "boolean"
+      userId:
+        type: "integer"
+        format: "int32"
+        
+  CartDetail:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int32"
+      cartId:
+        type: "integer"
+        format: "int32"
+      productId:
+        type: "integer"
+        format: "int32"
+      quantity:
+        type: "integer"
+        format: "int32"
+  UserRole:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+    xml:
+      name: "UserRole"
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      username:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "string"
+      shippingAdress:
+        type: "string"
+      userRoleId:
+        type: "integer"
+        format: "int32"
+    xml:
+      name: "User"
+  PaymentMethod:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        xml:
+          name: "PaymentMethod"
+  OrderStatus:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
